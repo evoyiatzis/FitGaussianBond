@@ -54,10 +54,13 @@ if 'data' in st.session_state:
         fig1 = alt.Chart(st.session_state['data']).mark_point(filled=True).encode(x='Bond Length',y='y') 
         submit2 = st.form_submit_button("Fit gaussian expression")
         if submit2:
-            try:
-                st.write("Under Construction !")
-            except RuntimeError as e:
-                st.write("Optimal parameters not found")
+            if 'n_gaussians' not in st.session_state:
+                st.write("You have not entered a valid number of Gaussian terms")
+            else:
+                try:
+                    st.write("Under Construction !")
+                except RuntimeError as e:
+                    st.write("Optimal parameters not found")
         else:
             st.altair_chart(fig1.interactive())
 
