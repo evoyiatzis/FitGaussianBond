@@ -59,6 +59,7 @@ if 'data' in st.session_state:
             else:
                 try:
                     st.write("Under Construction !")
+                    #popt, pcov = curve_fit(gaussian_potential, bin_mid_points, prob_density_distr,p0)
                 except RuntimeError as e:
                     st.write("Optimal parameters not found")
         else:
