@@ -9,8 +9,8 @@ def gaussian_potential(x, *parameters):
     sum_gaussians = 0
     
     for j in range(0, n_gaussians):
-        prefactor = parameters[3*j]/(parameters[3*j+1]*numpy.sqrt(numpy.pi/2))
-        exponential = numpy.exp((-2*numpy.power(parameters[3*j+2]-x, 2))/numpy.power(parameters[3*j+1], 2))
+        prefactor = parameters[3*j]/(parameters[3*j+1]*np.sqrt(np.pi/2))
+        exponential = np.exp((-2*np.power(parameters[3*j+2]-x, 2))/np.power(parameters[3*j+1], 2))
         sum_gaussians += (prefactor*exponential)
 
     return sum_gaussians
