@@ -41,7 +41,7 @@ with st.form("myform"):
         try:
             n_gaussians = int(n_gaussians)
             if n_gaussians > 0:
-                st.write(f"The number of Gaussian terms is: {number}")
+                st.write(f"The number of Gaussian terms is: {n_gaussians}")
                 st.session_state['n_gaussians'] = n_gaussians
             else:
                 st.write("The number of Gaussian terms must be greater than zero")
