@@ -38,6 +38,16 @@ with st.form("myform"):
         else:
             st.write("you need to upload a valid txt or csv file")
 
+        try:
+            n_gaussians = int(n_gaussians)
+            if n_gaussians > 0:
+                st.write(f"The number of Gaussian terms is: {number}")
+                st.session_state['n_gaussians'] = n_gaussians
+            else:
+                st.write("The number of Gaussian terms must be greater than zero")
+        except ValueError:
+            st.write("You have not entered a valid number of Gaussian terms")
+
 # Plot the data
 if 'data' in st.session_state:
     with st.form("myform2"):
@@ -56,4 +66,6 @@ if st.button("Reset"):
         del st.session_state['data']
     if 'data_from_fitting' in st.session_state:
         del st.session_state['data_from_fitting']
+    if 'n_gaussians'  in st.session_state:
+        del st.session_state['n_gaussians'] 
     st.rerun()
