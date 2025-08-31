@@ -35,7 +35,7 @@ with st.form("myform"):
             raw_data = [float(i) for i in input_stream[1::2]]
             hist, bin_edges = np.histogram(raw_data, bins='auto', density=True)
             bin_mid_points = [0.5*(bin_edges[i] + bin_edges[i+1]) for i in range(0, len(hist))]
-            st.session_state['data'] = pd.DataFrame({'bin_mid_points': bin_mid_points, 'hist': hist})
+            st.session_state['data'] = pd.DataFrame({'bin mid points': bin_mid_points, 'Histogram': hist})
         else:
             st.write("you need to upload a valid txt or csv file")
 
@@ -51,8 +51,7 @@ with st.form("myform"):
 # Plot the data
 if 'data' in st.session_state:
     with st.form("myform2"):
-        fig1 = alt.Chart(st.session_state['data']).mark_point(filled=True).encode(x='bin_mid_points',y='hist')
-        st.write(st.session_state['data'])
+        fig1 = alt.Chart(st.session_state['data']).mark_point(filled=True).encode(x='bin mid points',y='Histogram')
         submit2 = st.form_submit_button("Fit gaussian expression")
         if submit2:
             if 'n_gaussians' not in st.session_state:
@@ -60,7 +59,7 @@ if 'data' in st.session_state:
             else:
                 try:
                     st.write("Under Construction !")
-                    popt, pcov = curve_fit(gaussian_potential, st.session_state['data']['bin_mid_points'], st.session_state['data']['hist'], p0)
+                    popt, pcov = curve_fit(gaussian_potential, st.session_state['data']['bin mid points'], st.session_state['data']['hist'], p0)
                     st.write(popt)
                 except RuntimeError as e:
                     st.write("Optimal parameters not found")
