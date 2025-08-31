@@ -25,16 +25,18 @@ st.markdown("This WebApp was created by Evangelos Voyiatzis.")
 
 # Add interactive elements
 with st.form("myform"):
-    help_str = "The decimal separator must be a dot and not a comma. The file is assumed to have two columns of equal length: the first is the bond length and the second the probability density distribution "
+    help_str = "The decimal separator must be a dot and not a comma. The file is assumed to have two columns of equal length: the first is ignored and the second is the bond length"
     uploaded_file = st.file_uploader("Choose a file", type=["txt", "csv"], help=help_str)
     n_gaussians = st.text_input("Number of Gaussians [integer]:")
     submit = st.form_submit_button("Plot data")
     if submit:
         if uploaded_file is not None:
             input_stream = uploaded_file.getvalue().decode('utf-8').replace(",", "").split()
-            x = [float(i) for i in input_stream[0::2]]
-            y = [float(i) for i in input_stream[1::2]]
-            st.session_state['data'] = pd.DataFrame({'Bond Length': x, 'y': y})
+            #x = [float(i) for i in input_stream[0::2]]
+            raw_data = [float(i) for i in input_stream[1::2]]
+            hist, bin_edges = np.histogram(raw_data, bins='auto', density=True)
+            bin_mid_points = [0.5*(bin_edges[i] + bin_edges[i+1]) for i in range(0, len(hist))]
+            st.session_state['data'] = pd.DataFrame({'bin_edges': bin_edges, 'bin_mid_points' = bin_mid_points, 'hist': hist})
         else:
             st.write("you need to upload a valid txt or csv file")
 
@@ -51,7 +53,7 @@ with st.form("myform"):
 # Plot the data
 if 'data' in st.session_state:
     with st.form("myform2"):
-        fig1 = alt.Chart(st.session_state['data']).mark_point(filled=True).encode(x='Bond Length',y='y') 
+        fig1 = alt.Chart(st.session_state['data']).mark_point(filled=True).encode(x='bin_mid_points',y='hist')
         submit2 = st.form_submit_button("Fit gaussian expression")
         if submit2:
             if 'n_gaussians' not in st.session_state:
