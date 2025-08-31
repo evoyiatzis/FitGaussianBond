@@ -54,6 +54,7 @@ with st.form("myform"):
 if 'data' in st.session_state:
     with st.form("myform2"):
         fig1 = alt.Chart(st.session_state['data']).mark_point(filled=True).encode(x='bin_mid_points',y='hist')
+        st.write(st.session_state['data'])
         submit2 = st.form_submit_button("Fit gaussian expression")
         if submit2:
             if 'n_gaussians' not in st.session_state:
@@ -61,7 +62,8 @@ if 'data' in st.session_state:
             else:
                 try:
                     st.write("Under Construction !")
-                    #popt, pcov = curve_fit(gaussian_potential, bin_mid_points, prob_density_distr,p0)
+                    popt, pcov = curve_fit(gaussian_potential, bin_mid_points, hist, p0)
+                    st.write(popt)
                 except RuntimeError as e:
                     st.write("Optimal parameters not found")
         else:
