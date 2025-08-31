@@ -35,10 +35,6 @@ with st.form("myform"):
             raw_data = [float(i) for i in input_stream[1::2]]
             hist, bin_edges = np.histogram(raw_data, bins='auto', density=True)
             bin_mid_points = [0.5*(bin_edges[i] + bin_edges[i+1]) for i in range(0, len(hist))]
-            st.write(raw_data)
-            st.write(hist)
-            st.write(bin_edges)
-            st.write(bin_mid_points)
             st.session_state['data'] = pd.DataFrame({'bin_mid_points': bin_mid_points, 'hist': hist})
         else:
             st.write("you need to upload a valid txt or csv file")
