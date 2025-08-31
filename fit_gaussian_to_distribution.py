@@ -32,7 +32,6 @@ with st.form("myform"):
     if submit:
         if uploaded_file is not None:
             input_stream = uploaded_file.getvalue().decode('utf-8').replace(",", "").split()
-            #x = [float(i) for i in input_stream[0::2]]
             raw_data = [float(i) for i in input_stream[1::2]]
             hist, bin_edges = np.histogram(raw_data, bins='auto', density=True)
             bin_mid_points = [0.5*(bin_edges[i] + bin_edges[i+1]) for i in range(0, len(hist))]
@@ -43,7 +42,6 @@ with st.form("myform"):
         try:
             n_gaussians = int(n_gaussians)
             if n_gaussians > 0:
-                st.write(f"The number of Gaussian terms is: {n_gaussians}")
                 st.session_state['n_gaussians'] = n_gaussians
             else:
                 st.write("The number of Gaussian terms must be greater than zero")
@@ -62,7 +60,7 @@ if 'data' in st.session_state:
             else:
                 try:
                     st.write("Under Construction !")
-                    popt, pcov = curve_fit(gaussian_potential, bin_mid_points, hist, p0)
+                    popt, pcov = curve_fit(gaussian_potential, st.session_state['data']['bin_mid_points'], st.session_state['data']['hist'], p0)
                     st.write(popt)
                 except RuntimeError as e:
                     st.write("Optimal parameters not found")
