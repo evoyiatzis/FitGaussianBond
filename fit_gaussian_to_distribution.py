@@ -43,6 +43,7 @@ with st.form("myform"):
             n_gaussians = int(n_gaussians)
             if n_gaussians > 0:
                 st.session_state['n_gaussians'] = n_gaussians
+                st.session_state['mean_value'] = sum(bin_mid_points*hist)/len(bin_mid_points)
             else:
                 st.write("The number of Gaussian terms must be greater than zero")
         except ValueError:
@@ -58,7 +59,11 @@ if 'data' in st.session_state:
                 st.write("You have not entered a valid number of Gaussian terms")
             else:
                 try:
-                    st.write("Under Construction !")
+                    p0 = [0] * (3 * st.session_state['n_gaussians'])
+                    for iel in range(0, st.session_state['n_gaussians']):
+                        p0[3 * iel] = 1.0 / st.session_state['n_gaussians']
+                        p0[3 * iel + 1] = st.session_state['mean_value']
+                        p0[3 * iel + 2] = 1.0 # should be corrected / improved
                     popt, pcov = curve_fit(gaussian_potential, st.session_state['data']['bin mid points'], st.session_state['data']['hist'], p0)
                     st.write(popt)
                 except RuntimeError as e:
@@ -71,6 +76,8 @@ if st.button("Reset"):
         del st.session_state['data']
     if 'data_from_fitting' in st.session_state:
         del st.session_state['data_from_fitting']
-    if 'n_gaussians'  in st.session_state:
+    if 'n_gaussians' in st.session_state:
         del st.session_state['n_gaussians'] 
+    if 'mean_value' in st.session_state:
+        del st.session_state['mean_value']
     st.rerun()
