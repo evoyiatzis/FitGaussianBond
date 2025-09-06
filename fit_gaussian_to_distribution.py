@@ -64,7 +64,7 @@ if 'data' in st.session_state:
                         p0[3 * iel] = 1.0 / st.session_state['n_gaussians']
                         p0[3 * iel + 1] = st.session_state['mean_value']
                         p0[3 * iel + 2] = 1.0 # should be corrected / improved
-                    popt, pcov = curve_fit(gaussian_potential, st.session_state['data']['bin mid points'], st.session_state['data']['hist'], p0)
+                    popt, pcov = curve_fit(gaussian_potential, st.session_state['data']['bin mid points'], st.session_state['data']['Histogram'], p0)
                     st.write(popt)
                 except RuntimeError as e:
                     st.write("Optimal parameters not found")
