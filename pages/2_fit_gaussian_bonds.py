@@ -21,8 +21,6 @@ def ssq(z):
 
 st.header("An App to fit Gaussian functions to a bond probability density distribution")
 
-st.markdown("This WebApp was created by Evangelos Voyiatzis.")
-
 # Add interactive elements
 with st.form("myform"):
     help_str = "The decimal separator must be a dot and not a comma. The file is assumed to have two columns of equal length: the first is ignored and the second is the bond length"
