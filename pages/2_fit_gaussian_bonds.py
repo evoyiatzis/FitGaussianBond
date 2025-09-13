@@ -19,7 +19,7 @@ def gaussian_potential(x, *parameters):
 def ssq(z):
     return(np.sum(z**2))
 
-st.header("An App to fit Gaussian functions to a bond probability density distribution")
+st.header("An App to fit Gaussian functions to a list of bond lengths")
 
 # Add interactive elements
 with st.form("myform"):
