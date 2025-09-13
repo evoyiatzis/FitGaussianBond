@@ -9,8 +9,6 @@ st.text("This is a WebApp for the parametrization of DPD models using the Groot 
         "Bridging the gap between atomistic and mesoscopic simulation' "
         "J. Chem. Phys. DOI:10.1063/1.474784")
 
-st.text("This WebApp was created by Evangelos Voyiatzis.")
-
 with st.form("my_form"):
     st.write("**System Properties**")
     temperature = st.text_input("Temperature in DPD units usually 1.0 [float]")
