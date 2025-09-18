@@ -34,18 +34,19 @@ with st.form("myform"):
             hist, bin_edges = np.histogram(raw_data, bins='auto', density=True)
             bin_mid_points = [0.5*(bin_edges[i] + bin_edges[i+1]) for i in range(0, len(hist))]
             st.session_state['gb_data'] = pd.DataFrame({'bin mid points': bin_mid_points, 'Histogram': hist})
+            
+            try:
+                n_gaussians = int(n_gaussians)
+                if n_gaussians > 0:
+                    st.session_state['gb_n_gaussians'] = n_gaussians
+                    st.session_state['gb_mean_value'] = sum(bin_mid_points*hist)/len(bin_mid_points)
+                else:
+                    st.write("The number of Gaussian terms must be greater than zero")
+            except ValueError:
+                st.write("You have not entered a valid number of Gaussian terms")
+
         else:
             st.write("you need to upload a valid txt or csv file")
-
-        try:
-            n_gaussians = int(n_gaussians)
-            if n_gaussians > 0:
-                st.session_state['gb_n_gaussians'] = n_gaussians
-                st.session_state['gb_mean_value'] = sum(bin_mid_points*hist)/len(bin_mid_points)
-            else:
-                st.write("The number of Gaussian terms must be greater than zero")
-        except ValueError:
-            st.write("You have not entered a valid number of Gaussian terms")
 
 # Plot the data
 if 'data' in st.session_state:
