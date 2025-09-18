@@ -29,6 +29,8 @@ with st.form("myform"):
     n_gaussians = st.text_input("Number of Gaussians [integer]:")
     submit = st.form_submit_button("Plot data")
     if submit:
+        st.session_state['selected_units'] = selected_units
+
         if uploaded_file is not None:
             input_stream = uploaded_file.getvalue().decode('utf-8').replace(",", "").split()
             raw_data = [float(i) for i in input_stream[1::2]]
@@ -79,4 +81,6 @@ if st.button("Reset"):
         del st.session_state['n_gaussians'] 
     if 'mean_value' in st.session_state:
         del st.session_state['mean_value']
+    if 'selected_units' in st.session_state:
+        del st.session_state['selected_units'] = selected_units
     st.rerun()
