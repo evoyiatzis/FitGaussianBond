@@ -29,46 +29,46 @@ with st.form("myform"):
     n_gaussians = st.text_input("Number of Gaussians [integer]:")
     submit = st.form_submit_button("Plot data")
     if submit:
-        st.session_state['selected_units'] = selected_units
+        st.session_state['ga_selected_units'] = selected_units
 
         if uploaded_file is not None:
             input_stream = uploaded_file.getvalue().decode('utf-8').replace(",", "").split()
-            if st.session_state.selected_units == "Degrees":
+            if st.session_state.ga_selected_units == "Degrees":
                 raw_data = [float(i) for i in input_stream[1::2]]
             else:
                 raw_data = [math.radians(float(i)) for i in input_stream[1::2]]
             hist, bin_edges = np.histogram(raw_data, bins='auto', density=True)
             bin_mid_points = [0.5*(bin_edges[i] + bin_edges[i+1]) for i in range(0, len(hist))]
-            st.session_state['data'] = pd.DataFrame({'bin mid points': bin_mid_points, 'Histogram': hist})
+            st.session_state['ga_data'] = pd.DataFrame({'bin mid points': bin_mid_points, 'Histogram': hist})
         else:
             st.write("you need to upload a valid txt or csv file")
 
         try:
             n_gaussians = int(n_gaussians)
             if n_gaussians > 0:
-                st.session_state['n_gaussians'] = n_gaussians
-                st.session_state['mean_value'] = sum(bin_mid_points*hist)/len(bin_mid_points)
+                st.session_state['ga_n_gaussians'] = n_gaussians
+                st.session_state['ga_mean_value'] = sum(bin_mid_points*hist)/len(bin_mid_points)
             else:
                 st.write("The number of Gaussian terms must be greater than zero")
         except ValueError:
             st.write("You have not entered a valid number of Gaussian terms")
 
 # Plot the data
-if 'data' in st.session_state:
+if 'ga_data' in st.session_state:
     with st.form("myform2"):
-        fig1 = alt.Chart(st.session_state['data']).mark_point(filled=True).encode(x='bin mid points',y='Histogram')
+        fig1 = alt.Chart(st.session_state['ga_data']).mark_point(filled=True).encode(x='bin mid points',y='Histogram')
         submit2 = st.form_submit_button("Fit gaussian expression")
         if submit2:
-            if 'n_gaussians' not in st.session_state:
+            if 'ga_n_gaussians' not in st.session_state:
                 st.write("You have not entered a valid number of Gaussian terms")
             else:
                 try:
-                    p0 = [0] * (3 * st.session_state['n_gaussians'])
-                    for iel in range(0, st.session_state['n_gaussians']):
-                        p0[3 * iel] = 1.0 / st.session_state['n_gaussians']
-                        p0[3 * iel + 1] = st.session_state['mean_value']
+                    p0 = [0] * (3 * st.session_state['ga_n_gaussians'])
+                    for iel in range(0, st.session_state['ga_n_gaussians']):
+                        p0[3 * iel] = 1.0 / st.session_state['ga_n_gaussians']
+                        p0[3 * iel + 1] = st.session_state['ga_mean_value']
                         p0[3 * iel + 2] = 1.0 # should be corrected / improved
-                    popt, pcov = curve_fit(gaussian_potential, st.session_state['data']['bin mid points'], st.session_state['data']['Histogram'], p0)
+                    popt, pcov = curve_fit(gaussian_potential, st.session_state['ga_data']['bin mid points'], st.session_state['ga_data']['Histogram'], p0)
                     st.write(popt)
                 except RuntimeError as e:
                     st.write("Optimal parameters not found")
@@ -76,14 +76,14 @@ if 'data' in st.session_state:
             st.altair_chart(fig1.interactive())
 
 if st.button("Reset"):
-    if 'data' in st.session_state:
-        del st.session_state['data']
-    if 'data_from_fitting' in st.session_state:
-        del st.session_state['data_from_fitting']
-    if 'n_gaussians' in st.session_state:
-        del st.session_state['n_gaussians'] 
-    if 'mean_value' in st.session_state:
-        del st.session_state['mean_value']
-    if 'selected_units' in st.session_state:
-        del st.session_state['selected_units'] = selected_units
+    if 'ga_data' in st.session_state:
+        del st.session_state['ga_data']
+    if 'ga_data_from_fitting' in st.session_state:
+        del st.session_state['ga_data_from_fitting']
+    if 'ga_n_gaussians' in st.session_state:
+        del st.session_state['ga_n_gaussians'] 
+    if 'ga_mean_value' in st.session_state:
+        del st.session_state['ga_mean_value']
+    if 'ga_selected_units' in st.session_state:
+        del st.session_state['ga_selected_units']
     st.rerun()
