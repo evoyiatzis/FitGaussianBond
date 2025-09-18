@@ -25,6 +25,7 @@ st.header("An App to fit Gaussian functions to a list of angles")
 with st.form("myform"):
     help_str = "The decimal separator must be a dot and not a comma. The file is assumed to have two columns of equal length: the first is ignored and the second is the angles"
     uploaded_file = st.file_uploader("Choose a file", type=["txt", "csv"], help=help_str)
+    selected_units = st.radio("Choose the units of the angles:", ["Degrees", "Radians"])
     n_gaussians = st.text_input("Number of Gaussians [integer]:")
     submit = st.form_submit_button("Plot data")
     if submit:
