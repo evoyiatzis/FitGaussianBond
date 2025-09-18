@@ -33,7 +33,10 @@ with st.form("myform"):
 
         if uploaded_file is not None:
             input_stream = uploaded_file.getvalue().decode('utf-8').replace(",", "").split()
-            raw_data = [float(i) for i in input_stream[1::2]]
+            if st.session_state.selected_units == "Degrees":
+                raw_data = [float(i) for i in input_stream[1::2]]
+            else:
+                raw_data = [math.radians(float(i)) for i in input_stream[1::2]]
             hist, bin_edges = np.histogram(raw_data, bins='auto', density=True)
             bin_mid_points = [0.5*(bin_edges[i] + bin_edges[i+1]) for i in range(0, len(hist))]
             st.session_state['data'] = pd.DataFrame({'bin mid points': bin_mid_points, 'Histogram': hist})
