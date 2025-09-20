@@ -12,3 +12,35 @@ with st.form("my_form"):
     density = st.text_input("Number density in DPD units usually 3.0 [float]")
     number = st.text_input("Number of DPD bead types in the system [integer]")
     submitted = st.form_submit_button("Submit")
+
+    if submitted:
+
+        try:
+            temperature = float(temperature)
+            if temperature > 0:
+                st.write(f"The temperature is: {temperature}")
+                st.session_state['temperature'] = temperature
+            else:
+                st.write("The temperature should be greater than zero")
+        except ValueError:
+            st.write("You have not entered a valid temperature")
+
+        try:
+            density = float(density)
+            if density > 0:
+                st.write(f"The number density is: {density}")
+                st.session_state['density'] = density
+            else:
+                st.write("The density should be greater than zero")
+        except ValueError:
+            st.write("You have not entered a valid density")
+
+        try:
+            number = int(number)
+            if number > 0:
+                st.write(f"The number of DPD bead types is: {number}")
+                st.session_state['number'] = number
+            else:
+                st.write("The number of DPD bead types should be greater than zero")
+        except ValueError:
+            st.write("You have not entered a valid number of DPD bead types")
