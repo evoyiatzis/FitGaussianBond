@@ -7,6 +7,7 @@ st.title('Homepage')
 st.text('It provides a few tools for the derivation of DPD models')
 
 st.text('The Gaussian Apps describes a solution for fitting eqn 2 in 'Multicentered Gaussian-Based Potentials for Coarse-Grained Polymer Simulations: Linking Atomistic and Mesoscopic Scales'"
+        "Journal of Polymer Science Part B: Polymer Physics, 43 (8), 871–885. DOI:10.1002/polb.20380")
 
 st.text("The standard DPD parametrization App derives the parameters of DPD models using the Groot De Warren methodology. "
         "The reference is 'Dissipative particle dynamics: "
