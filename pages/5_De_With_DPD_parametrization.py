@@ -62,3 +62,17 @@ if all(x in st.session_state for x in ['number', 'temperature', 'density']):
         if submit:
             st.session_state['edited_df']= edited_df
             st.session_state['edited_df2']= edited_df2
+
+if st.button("Reset"):
+    if 'number' in st.session_state:
+        del st.session_state['number']
+    if 'temperature' in st.session_state:
+        del st.session_state['temperature']
+    if 'density' in st.session_state:
+        del st.session_state['density']
+    if 'edited_df' in st.session_state:
+        del st.session_state['edited_df']
+    if 'edited_df2' in st.session_state:
+        del st.session_state['edited_df2']
+
+    st.rerun()
