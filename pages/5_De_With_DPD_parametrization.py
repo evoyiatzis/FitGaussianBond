@@ -51,7 +51,7 @@ if all(x in st.session_state for x in ['number', 'temperature', 'density']):
     with st.form("second_form"):
         st.write("**Pure Component Density**")
 
-        df2 = pd.DataFrame(0, index = np.arange(1, st.session_state.number+1, 1), columns=1, dtype=np.float64)
+        df2 = pd.DataFrame(0, index = np.arange(1, st.session_state.number+1, 1), columns=[1], dtype=np.float64)
         edited_df2 = st.data_editor(df2)
 
         st.write("**Flory–Huggins parameters**")
