@@ -49,7 +49,7 @@ with st.form("myform"):
             st.write("you need to upload a valid txt or csv file")
 
 # Plot the data
-if 'data' in st.session_state:
+if 'gb_data' in st.session_state:
     with st.form("myform2"):
         fig1 = alt.Chart(st.session_state['gb_data']).mark_point(filled=True).encode(x='bin mid points',y='Histogram')
         submit2 = st.form_submit_button("Fit gaussian expression")
