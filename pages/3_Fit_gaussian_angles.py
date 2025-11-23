@@ -71,7 +71,7 @@ if 'ga_data' in st.session_state:
                         p0[3 * iel + 1] = st.session_state['ga_mean_value']
                         p0[3 * iel + 2] = 1.0 # should be corrected / improved
                     popt, pcov = curve_fit(gaussian_potential, st.session_state['ga_data']['bin mid points'], st.session_state['ga_data']['Histogram'], p0)
-                    opt_param = pd.DataFrame({'i': [i for i in range(1, st.session_state['gb_n_gaussians']+1)], 'Ai': popt[1::3], 'Wi': popt[1::3], 'li': popt[2::3]})
+                    opt_param = pd.DataFrame({'i': [i for i in range(1, st.session_state['ga_n_gaussians']+1)], 'Ai': popt[1::3], 'Wi': popt[1::3], 'li': popt[2::3]})
                     st.write(popt)
                     st.dataframe(opt_param)
                 except RuntimeError as e:
